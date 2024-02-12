@@ -1,11 +1,11 @@
-import MyTable from "./components/todolist";
-// import Todo from "./components/todolist";
+import './assets/css/style.css'
+import TodoList from "./components/todolist";
 
 function App() {
   return (
     <>
     {/* <Todo/> */}
-    <MyTable/>
+    <TodoList/>
     </>
   );
 }

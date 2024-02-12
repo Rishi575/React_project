@@ -1,39 +1,48 @@
-import '../assets/css/style.css'
+import React, { useState, useEffect } from 'react';
 
-const Todo = () => {
-    return (
-        <>
-            <h2 className='todo flex justify-center'>To-Do List</h2>
+function TodoList() {
+    const [todos, setTodos] = useState([]);
+    const [input, setInput] = useState('');
+    const [indexToRemove, setIndexToRemove] = useState(-1);
 
-            <table className='tab flex justify-top theme-bg mlr-20 flex-col hv-80'>
-                <thead className='thead mt-1 flex justify-center theme-black'>
-                    <tr>
-                        <th className='th padr-4'>To-Do</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr className='tr flex mt-1 justify-center theme-black'>
-                        <td className='th padr-3'>Project</td>
-                        <td><button>Completed</button></td>
-                    </tr>
-                </tbody>
-            </table>
-
-        </>
-    )
+  const addTodo = (e) => {
+    e.preventDefault();
+    setTodos([...todos, input]);
+    setInput('');
+  };
+  
+  const removeTodo = (index) => {
+    setIndexToRemove(index);
+  };
+  useEffect(() => {
+    if (indexToRemove !== -1) {
+      const newTodos = [...todos];
+      newTodos.splice(indexToRemove, 1);
+      setTodos(newTodos);
+      setIndexToRemove(-1);
+    }
+  }, [indexToRemove]);
+  
+  return (
+    <div>
+      <h1>Todo List</h1>
+      <form >
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+        />
+        <button type="submit" onClick={addTodo}>Add Todo</button>
+      </form>
+      <ul>
+      {todos.map((todo, index) => (
+          <li key={index}>
+            {todo} <button onClick={() => removeTodo(index)}>Remove</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
-export default Todo
-
-{/* <thead >
-                    <tr className='tr flex justify-center theme-bg item-center pad-1'>
-                        <th>To-Do</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody className='body flex justify-center justify-center'>
-                    <tr>
-                        <td>No-Todo</td>
-                    </tr>
-                </tbody> */}
+export default TodoList;
